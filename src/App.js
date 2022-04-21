@@ -4,6 +4,7 @@ import NavBar from './Components/NavBar';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import QGRS from './Pages/Qgrs';
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
               </Routes>
               <Routes>
                 <Route exact path = "/stats" element = {<Stats/>} />
+              </Routes>
+              <Routes>
+                <Route exact path = "/qgrs" element = {<QGRS/>} />
               </Routes>
             </div>
           </div>
