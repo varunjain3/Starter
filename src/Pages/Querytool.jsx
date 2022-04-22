@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useTable } from 'react-table';
 import {Table, TableData, TableHead, TableRow, TableBody, TableHeader} from 'fixed-data-table';
+import GlobalFilter from '../Components/TableComponents/GlobalFilter';
+import { useGlobalFilter } from 'react-table/dist/react-table.development';
 
 const Querytool = () => {
 
@@ -26,32 +28,6 @@ const Querytool = () => {
     const lnccancerColumns = useMemo(() => lnccancer[0] ? Object.keys(lnccancer[0]).filter((key) => key != "n_transcript_vars").map((key) => {
       return {Header: key, accessor: key}
     }) : [], [lnccancer]);
-
-    const columns = React.useMemo(
-        () => [
-          {
-            Header: 'LncRNA Name',
-            accessor: 'lncrna_name', // accessor is the "key" in the data
-          },
-          {
-            Header: 'Cancer Name',
-            accessor: 'cancer_name',
-          },
-          // {
-          //   Header: 'Methods',
-          //   accessor: 'methods',
-          // },
-          // {
-          //   Header: 'Expression Pattern',
-          //   accessor: 'expression_pattern',
-          // },
-          // {
-          //   Header: 'Pubmed ID',
-          //   accessor: 'pubmed_id',
-          // },
-        ],
-        []
-      );
 
       const tmp_data = useMemo(() => (
         [
@@ -94,7 +70,10 @@ const Querytool = () => {
         ]
       ));
 
-    const tableInstance = useTable({ columns: lnccancerColumns, data: lnccancerData });
+    const tableInstance = useTable(
+      { columns: lnccancerColumns, data: lnccancerData },
+      useGlobalFilter,
+      );
 
     const {
       getTableProps,
@@ -102,11 +81,15 @@ const Querytool = () => {
       headerGroups,
       rows,
       prepareRow,
+      preGlobalFilteredRows,
+      setGlobalFilter,
+      state,
     } = tableInstance;
 
   return (
     <div>
-        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+      <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
+      <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>
          {headerGroups.map(headerGroup => (
            <tr {...headerGroup.getHeaderGroupProps()}>

@@ -12,3 +12,15 @@ class Lnccancer(BaseModel):
 
     class Config:
         orm_mode = True
+
+class Qgrsdata(BaseModel):
+    id: int
+    lncrna_name: str
+    n_transcript_vars: str
+    ncbi_ref_id: str
+    n2g: str
+    n3g: str
+    n4g: str
+
+    class Config:
+        orm_mode = True
