@@ -1,3 +1,4 @@
+from hashlib import new
 from xmlrpc.client import Boolean, boolean
 import requests as req
 from bs4 import BeautifulSoup as bs
@@ -16,6 +17,52 @@ class QGRSParameters(BaseModel):
     loop_min: int = 0
     loop_max: int = 36
 
+def numg_calc(seq):
+    numg = None
+    score = []
+    i = 0
+
+    while i < len(seq):
+        if  seq[i] == "G":
+            t = 0
+            while(seq[t+i]) == "G":
+                t += 1
+
+                if t+i>=len(seq):
+                    break
+
+            score += [t]
+            i += t
+        else:
+            score += [0]
+            i += 1
+    
+    main_score = score
+
+    for i in range(4,0,-1):
+        count = 0
+        for j in score:
+            if j == i:
+                count += 1
+        if count >= 4:
+            numg = i
+            break
+        else:
+            temp = []
+            j = 0
+            for j in range(len(main_score)):
+                if main_score[j] >= i:
+                    temp += [i-1]*(main_score[j]//(i-1))
+
+                else:
+                    temp += [main_score[j]]
+
+            score = temp
+    
+    if numg is None:
+        return 0
+    else:
+        return numg
 
 @router.post("/qgrs_ncbi/")
 def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
@@ -26,7 +73,7 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
                "fasta": seq,
                "fasta_url": url}
 
-    data = {"sequence": seq}
+    data = {"sequence": seq,"table":[]}
 
     parameters = parameters.dict()
     parameters = {str(k).lower(): str(v).lower() for k, v in parameters.items()}
@@ -53,7 +100,36 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
     table_rows = table.find_all('tr')[1:]
     gees = [0, 0, 0, 0, 0, 0, 0]
     for tr in table_rows:
-        seq = tr.find_all('td')[2]
+        table_data = tr.find_all('td')
+        seq = table_data[2]
+        new_seq = ""
+        flag = False
+        for char in str(seq):
+            if char == "<":
+                flag = True
+            if char == ">":
+                flag = False
+                continue
+
+            if not flag:
+                new_seq += char
+
+        num_g = numg_calc(new_seq)
+        seq_len = table_data[1].text
+        start_pos = table_data[0].text
+
+        package = {
+            "sequence": new_seq,
+            "length": seq_len,
+            "start_pos": start_pos,
+            "num_g": num_g
+        }
+        
+        data['table'].append(package)
+
+                
+            
+        
         gees[len(seq.find_all('u')[0].text)] += 1
 
     results["# of 2g"] = gees[2]
@@ -67,6 +143,7 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
         raise Exception("6g sequence found")
         results["# of 6g"] = gees[6]
 
+    results['table'] = data["table"]
     return results
 
 @router.get("/qgrs_seq/")
