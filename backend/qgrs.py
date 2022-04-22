@@ -17,18 +17,19 @@ class QGRSParameters(BaseModel):
     loop_min: int = 0
     loop_max: int = 36
 
+
 def numg_calc(seq):
     numg = None
     score = []
     i = 0
 
     while i < len(seq):
-        if  seq[i] == "G":
+        if seq[i] == "G":
             t = 0
             while(seq[t+i]) == "G":
                 t += 1
 
-                if t+i>=len(seq):
+                if t+i >= len(seq):
                     break
 
             score += [t]
@@ -36,10 +37,10 @@ def numg_calc(seq):
         else:
             score += [0]
             i += 1
-    
+
     main_score = score
 
-    for i in range(4,0,-1):
+    for i in range(4, 0, -1):
         count = 0
         for j in score:
             if j == i:
@@ -51,21 +52,22 @@ def numg_calc(seq):
             temp = []
             j = 0
             for j in range(len(main_score)):
-                if main_score[j] >= i:
+                if main_score[j] >= i and i > 1:
                     temp += [i-1]*(main_score[j]//(i-1))
 
                 else:
                     temp += [main_score[j]]
 
             score = temp
-    
+
     if numg is None:
         return 0
     else:
         return numg
 
+
 @router.post("/qgrs_ncbi/")
-def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
+def get_QGRS_NCBI(NCBI_ID, parameters: QGRSParameters):
 
     # make request to the server for an ID
     seq, url = get_Fasta_from_NCBI(NCBI_ID)
@@ -73,10 +75,11 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
                "fasta": seq,
                "fasta_url": url}
 
-    data = {"sequence": seq,"table":[]}
+    data = {"sequence": seq, "table": []}
 
     parameters = parameters.dict()
-    parameters = {str(k).lower(): str(v).lower() for k, v in parameters.items()}
+    parameters = {str(k).lower(): str(v).lower()
+                  for k, v in parameters.items()}
 
     inputURL = "https://bioinformatics.ramapo.edu/QGRS/analyze.php"
     r = req.post(inputURL, data=data, cookies=parameters)
@@ -99,6 +102,8 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
     # count number of 2G,3G,4G,5G,6G sequences
     table_rows = table.find_all('tr')[1:]
     gees = [0, 0, 0, 0, 0, 0, 0]
+
+    count = 1
     for tr in table_rows:
         table_data = tr.find_all('td')
         seq = table_data[2]
@@ -122,14 +127,12 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
             "sequence": new_seq,
             "length": seq_len,
             "start_pos": start_pos,
-            "num_g": num_g
+            "num_g": num_g,
+            "id": count
         }
-        
+        count += 1
         data['table'].append(package)
 
-                
-            
-        
         gees[len(seq.find_all('u')[0].text)] += 1
 
     results["# of 2g"] = gees[2]
@@ -146,8 +149,9 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
     results['table'] = data["table"]
     return results
 
+
 @router.post("/qgrs_seq/")
-def get_QGRS_Sequence(seq, parameters:QGRSParameters):
+def get_QGRS_Sequence(seq, parameters: QGRSParameters):
     """
     seq: string (ATGC)
     parameters: dict of parameters to be sent to QGRS server
@@ -158,7 +162,8 @@ def get_QGRS_Sequence(seq, parameters:QGRSParameters):
     data = {"sequence": seq}
 
     parameters = parameters.dict()
-    parameters = {str(k).lower(): str(v).lower() for k, v in parameters.items()}
+    parameters = {str(k).lower(): str(v).lower()
+                  for k, v in parameters.items()}
 
     inputURL = "https://bioinformatics.ramapo.edu/QGRS/analyze.php"
     r = req.post(inputURL, data=data, cookies=parameters)
@@ -182,6 +187,7 @@ def get_QGRS_Sequence(seq, parameters:QGRSParameters):
     # count number of 2G,3G,4G,5G,6G sequences
     table_rows = table.find_all('tr')[1:]
     gees = [0, 0, 0, 0, 0, 0, 0]
+    count = 1
     for tr in table_rows:
         table_data = tr.find_all('td')
         seq = table_data[2]
@@ -205,9 +211,11 @@ def get_QGRS_Sequence(seq, parameters:QGRSParameters):
             "sequence": new_seq,
             "length": seq_len,
             "start_pos": start_pos,
-            "num_g": num_g
+            "num_g": num_g,
+            "id":count
         }
-        
+        count += 1
+
         data['table'].append(package)
 
     results["# of 2g"] = gees[2]

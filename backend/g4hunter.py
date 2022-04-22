@@ -122,6 +122,7 @@ def get_g4hunter_data(NCBI_ID, paramters: G4Hunter):
     start = None
     last = None
     consensus_seq = []
+    count = 1
 
     for start_position in sequence_hunter:
         if start is None:
@@ -138,7 +139,9 @@ def get_g4hunter_data(NCBI_ID, paramters: G4Hunter):
                     "score": new_seq_score,
                     "len": len(new_seq), 
                     "start": start,
-                    "num_g": num_g}
+                    "num_g": num_g,
+                    "id":count}
+            count += 1
             consensus_seq.append(data)
             start = start_position
             last = start_position
