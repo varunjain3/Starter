@@ -146,7 +146,7 @@ def get_QGRS_NCBI(NCBI_ID,parameters:QGRSParameters):
     results['table'] = data["table"]
     return results
 
-@router.get("/qgrs_seq/")
+@router.post("/qgrs_seq/")
 def get_QGRS_Sequence(seq, parameters:QGRSParameters):
     """
     seq: string (ATGC)
@@ -177,13 +177,38 @@ def get_QGRS_Sequence(seq, parameters:QGRSParameters):
     r = req.get(outputURL)
     soup = bs(r.text, 'html.parser')
     table = soup.find('table')
+    data['table'] = []
 
     # count number of 2G,3G,4G,5G,6G sequences
     table_rows = table.find_all('tr')[1:]
     gees = [0, 0, 0, 0, 0, 0, 0]
     for tr in table_rows:
-        seq = tr.find_all('td')[2]
-        gees[len(seq.find_all('u')[0].text)] += 1
+        table_data = tr.find_all('td')
+        seq = table_data[2]
+        new_seq = ""
+        flag = False
+        for char in str(seq):
+            if char == "<":
+                flag = True
+            if char == ">":
+                flag = False
+                continue
+
+            if not flag:
+                new_seq += char
+
+        num_g = numg_calc(new_seq)
+        seq_len = table_data[1].text
+        start_pos = table_data[0].text
+
+        package = {
+            "sequence": new_seq,
+            "length": seq_len,
+            "start_pos": start_pos,
+            "num_g": num_g
+        }
+        
+        data['table'].append(package)
 
     results["# of 2g"] = gees[2]
     results["# of 3g"] = gees[3]
@@ -196,4 +221,5 @@ def get_QGRS_Sequence(seq, parameters:QGRSParameters):
         raise Exception("6g sequence found")
         results["# of 6g"] = gees[6]
 
+    results['table'] = data['table']
     return results
