@@ -1,56 +1,47 @@
-import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
-import { useTable, useFilters } from 'react-table';
-import {Table, TableData, TableHead, TableRow, TableBody, TableHeader} from 'fixed-data-table';
-// import GlobalFilter from '../Components/TableComponents/GlobalFilter';
-import GlobalFilter from './GlobalFilter';
-import { useGlobalFilter } from 'react-table/dist/react-table.development';
-// import ColumnFilter from '../Components/TableComponents/ColumnFilter';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useFilters, useTable } from 'react-table/dist/react-table.development';
 import ColumnFilter from './ColumnFilter';
 
-const LncCancer = () => {
+const QgrsTable = () => {
 
-    const [lnccancer, setLnccancer] = useState([]);
+    const [qgrstable, setQgrstable] = useState([]);
 
-    const fetchLnccancer = async () => {
-        const response = await axios.get('http://localhost:8000/table_data/lnccancer').catch(err => console.log(err));
+    const fetchQgrstable = async () => {
+        const response = await axios.get('http://localhost:8000/table_data/qgrsdata').catch(err => console.log(err));
 
         if(response){
-            const lnccancer = response.data;
-
-            // console.log("Lnccancer: ", lnccancer);
-            setLnccancer(lnccancer);
+            const qgrstable = response.data;
+            console.log("Qgrstable", qgrstable);
+            setQgrstable(qgrstable);
         }
     };
 
     useEffect(() => {
-        fetchLnccancer();
+        fetchQgrstable();
     }, []);
 
-    const lnccancerData = useMemo(() => [...lnccancer], [lnccancer]);
-    const lnccancerColumns = useMemo(() => lnccancer[0] ? Object.keys(lnccancer[0]).filter((key) => key != "n_transcript_vars" && key != "id").map((key) => {
-      return {Header: key, accessor: key, Filter: ColumnFilter}
-    }) : [], [lnccancer]);
+    const qgrstableData = useMemo(() => [...qgrstable], [qgrstable]);
+    const qgrstableColumns = useMemo(() => qgrstable[0] ? Object.keys(qgrstable[0]).filter((key) => key != "n_transcript_vars" && key != "id").map((key) => {
+        return {Header: key, accessor: key, Filter: ColumnFilter}
+      }) : [], [qgrstable]);
 
+    
     const tableInstance = useTable(
-      { columns: lnccancerColumns, data: lnccancerData },
-      useFilters,
-      useGlobalFilter,
-      );
+        {columns: qgrstableColumns, data: qgrstableData},
+        useFilters,
+    );
 
     const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      rows,
-      prepareRow,
-      preGlobalFilteredRows,
-      setGlobalFilter,
-      state,
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
     } = tableInstance;
 
-  return (
-    <div>
+    return (
+        <div>
       {/* <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/> */}
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>
@@ -98,7 +89,7 @@ const LncCancer = () => {
        </tbody>
      </table>
     </div>
-  )
+    )
 }
 
-export default LncCancer
+export default QgrsTable
