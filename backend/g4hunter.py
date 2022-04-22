@@ -40,7 +40,7 @@ def numg_calc(seq):
             temp = []
             j = 0
             for j in range(len(main_score)):
-                if main_score[j] >= i:
+                if main_score[j] >= i and i> 1:
                     temp += [i-1]*(main_score[j]//(i-1))
 
                 else:
