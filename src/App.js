@@ -19,7 +19,7 @@ function App() {
                 <Route exact path = "/" element = {<Home/>} />
                 <Route exact path = "/stats" element = {<Stats/>} />
                 <Route exact path = "/qgrs" element = {<QGRS/>} />
-                <Route exact path = "/querytool" element = {<Querytool/>} />
+                <Route exact path = "/querytool/*" element = {<Querytool/>} />
               </Routes>
             </div>
           </div>

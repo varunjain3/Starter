@@ -1,94 +1,67 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
-import { useTable } from 'react-table';
+import { useTable, useFilters } from 'react-table';
 import {Table, TableData, TableHead, TableRow, TableBody, TableHeader} from 'fixed-data-table';
 import GlobalFilter from '../Components/TableComponents/GlobalFilter';
 import { useGlobalFilter } from 'react-table/dist/react-table.development';
+import ColumnFilter from '../Components/TableComponents/ColumnFilter';
+import LncCancer from '../Components/TableComponents/LncCancer';
+import QgrsTable from '../Components/TableComponents/QgrsTable';
+import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
+import AdvancedTool from '../Components/TableComponents/AdvancedTool';
 
 const Querytool = () => {
 
-    const [lnccancer, setLnccancer] = useState([]);
+    // const [lnccancer, setLnccancer] = useState([]);
 
-    const fetchLnccancer = async () => {
-        const response = await axios.get('http://localhost:8000/table_data/lnccancer').catch(err => console.log(err));
+    // const fetchLnccancer = async () => {
+    //     const response = await axios.get('http://localhost:8000/table_data/lnccancer').catch(err => console.log(err));
 
-        if(response){
-            const lnccancer = response.data;
+    //     if(response){
+    //         const lnccancer = response.data;
 
-            console.log("Lnccancer: ", lnccancer);
-            setLnccancer(lnccancer);
-        }
-    };
+    //         console.log("Lnccancer: ", lnccancer);
+    //         setLnccancer(lnccancer);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchLnccancer();
-    }, []);
+    // useEffect(() => {
+    //     fetchLnccancer();
+    // }, []);
 
-    const lnccancerData = useMemo(() => [...lnccancer], [lnccancer]);
-    const lnccancerColumns = useMemo(() => lnccancer[0] ? Object.keys(lnccancer[0]).filter((key) => key != "n_transcript_vars").map((key) => {
-      return {Header: key, accessor: key}
-    }) : [], [lnccancer]);
+    // const lnccancerData = useMemo(() => [...lnccancer], [lnccancer]);
+    // const lnccancerColumns = useMemo(() => lnccancer[0] ? Object.keys(lnccancer[0]).filter((key) => key != "n_transcript_vars").map((key) => {
+    //   return {Header: key, accessor: key, Filter: ColumnFilter}
+    // }) : [], [lnccancer]);
 
-      const tmp_data = useMemo(() => (
-        [
-          {
-            "id": 0,
-            "lncrna_name": "ABHD11-AS1",
-            "cancer_name": "colorectal cancer",
-            "methods": "qPCR, RIP, Luciferase reporter assay, Western blot, other",
-            "expression_pattern": "up-regulated",
-            "pubmed_id": "30429229",
-            "n_transcript_vars": "1"
-          },
-          {
-            "id": 1,
-            "lncrna_name": "ABHD11-AS1",
-            "cancer_name": "colorectal cancer",
-            "methods": "qPCR, Western blot, Luciferase reporter assay, in vitro knockdown, RIP, etc.",
-            "expression_pattern": "up-regulated",
-            "pubmed_id": "30537177",
-            "n_transcript_vars": "1"
-          },
-          {
-            "id": 2,
-            "lncrna_name": "ADAMTS9-AS2",
-            "cancer_name": "colorectal cancer",
-            "methods": "qPCR etc.",
-            "expression_pattern": "down-regulated",
-            "pubmed_id": "27596298",
-            "n_transcript_vars": "1"
-          },
-          {
-            "id": 3,
-            "lncrna_name": "ADPGK-AS1",
-            "cancer_name": "colorectal cancer",
-            "methods": "qPCR, Luciferase reporter assay etc",
-            "expression_pattern": "up-regulated",
-            "pubmed_id": "32196589",
-            "n_transcript_vars": "1"
-          },
-        ]
-      ));
+    // const tableInstance = useTable(
+    //   { columns: lnccancerColumns, data: lnccancerData },
+    //   useFilters,
+    //   useGlobalFilter,
+    //   );
 
-    const tableInstance = useTable(
-      { columns: lnccancerColumns, data: lnccancerData },
-      useGlobalFilter,
-      );
-
-    const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      rows,
-      prepareRow,
-      preGlobalFilteredRows,
-      setGlobalFilter,
-      state,
-    } = tableInstance;
+    // const {
+    //   getTableProps,
+    //   getTableBodyProps,
+    //   headerGroups,
+    //   rows,
+    //   prepareRow,
+    //   preGlobalFilteredRows,
+    //   setGlobalFilter,
+    //   state,
+    // } = tableInstance;
 
   return (
     <div>
-      <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
+      <Link to="lnccancer">LncCancer Database</Link>
+      <br />
+      <Link to="qgrstable">Qgrs Database</Link>
+      <Routes>
+        <Route exact path = "/lnccancer" element = {<LncCancer/>}/>
+        <Route exact path = "/qgrstable" element = {<QgrsTable/>}/>
+        <Route exact path = "/" element = {<AdvancedTool/>}></Route>
+      </Routes>
+      {/* <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>
          {headerGroups.map(headerGroup => (
@@ -104,6 +77,7 @@ const Querytool = () => {
                  }}
                >
                  {column.render('Header')}
+                 <div>{column.canFilter ? column.render('Filter') : null}</div>
                </th>
              ))}
            </tr>
@@ -132,7 +106,7 @@ const Querytool = () => {
            )
          })}
        </tbody>
-     </table>
+     </table> */}
     </div>
   )
 }
