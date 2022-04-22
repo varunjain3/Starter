@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import QGRS from './Pages/Qgrs';
+import Querytool from './Pages/Querytool';
 
 function App() {
   return (
@@ -16,12 +17,9 @@ function App() {
             <div className = "content">
               <Routes>
                 <Route exact path = "/" element = {<Home/>} />
-              </Routes>
-              <Routes>
                 <Route exact path = "/stats" element = {<Stats/>} />
-              </Routes>
-              <Routes>
                 <Route exact path = "/qgrs" element = {<QGRS/>} />
+                <Route exact path = "/querytool" element = {<Querytool/>} />
               </Routes>
             </div>
           </div>

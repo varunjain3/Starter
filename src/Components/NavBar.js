@@ -11,6 +11,7 @@ const NavBar = () => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/stats">Stats</Nav.Link>
             <Nav.Link href="/qgrs">QGRS</Nav.Link>
+            <Nav.Link href="/querytool">QueryTool</Nav.Link>
           </Nav>
           <Form className="d-flex">
             <FormControl
