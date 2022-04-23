@@ -11,7 +11,8 @@ const NavBar = () => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/qgrs">QGRS Mapper</Nav.Link>
             <Nav.Link href="/g4hunter">G4Hunter</Nav.Link>
-            <Nav.Link href="/querytool">QueryTool</Nav.Link>
+            <Nav.Link href="/lnccancerdg">LncCancer Database</Nav.Link>
+            <Nav.Link href="/qgrsdg">QGRS Database</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

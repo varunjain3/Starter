@@ -9,6 +9,9 @@ import LncCancer from '../Components/TableComponents/LncCancer';
 import QgrsTable from '../Components/TableComponents/QgrsTable';
 import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
 import AdvancedTool from '../Components/TableComponents/AdvancedTool';
+import Lnccancerdg from '../Components/TableComponents/Lnccancerdg';
+import Qgrsdg from '../Components/TableComponents/Qgrsdg';
+import {Tabs, Tab, Row, Col} from 'react-bootstrap';
 
 const Querytool = () => {
 
@@ -51,15 +54,33 @@ const Querytool = () => {
     //   state,
     // } = tableInstance;
 
+    // const [key, setKey ] = useState('LncCancer');
+
   return (
     <div>
+      {/* <Qgrsdg/> */}
+      {/* <Tabs
+        id="controlled-tab-example"
+        activeKey={key}
+        onSelect={(k) => setKey(k)}
+        // className="mb-3"
+      >
+        <Tab eventKey="LncCancer" title="LncCancer Database">
+          <Lnccancerdg/>
+        </Tab>
+
+        <Tab eventKey="QgrsData" title="QGRS Database">
+          <Qgrsdg/>
+        </Tab>
+      </Tabs> */}
+      
       <Link to="lnccancer">LncCancer Database</Link>
       <br />
       <Link to="qgrstable">Qgrs Database</Link>
       <Routes>
-        <Route exact path = "/lnccancer" element = {<LncCancer/>}/>
-        <Route exact path = "/qgrstable" element = {<QgrsTable/>}/>
-        <Route exact path = "/" element = {<AdvancedTool/>}></Route>
+        <Route exact path = "/lnccancer" element = {<Lnccancerdg/>}/>
+        <Route exact path = "/qgrstable" element = {<Qgrsdg/>}/>
+        {/* <Route exact path = "/" element = {<AdvancedTool/>}></Route> */} */}
       </Routes>
       {/* <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
@@ -107,6 +128,7 @@ const Querytool = () => {
          })}
        </tbody>
      </table> */}
+    {/* <Lnccancerdg/> */}
     </div>
   )
 }
