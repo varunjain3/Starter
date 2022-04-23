@@ -1,6 +1,6 @@
-import QGRSForms from "../Components/QgrsComponents/QGRSForms";
+import G4HunterForms from "../Components/G4HunterComponents/G4HunterForms";
 
-const QGRS = () => {
+const G4Hunter = () => {
     return (
         <div className="container">
             <div className="row justify-content-center">
@@ -8,11 +8,11 @@ const QGRS = () => {
                     <div className="card">
                         <div className="card-header">
                             <div className="row justify-content-center">
-                                QGRS Mapper
+                                G4Hunter
                             </div>
                         </div>
                         <div className="card-body">
-                            <QGRSForms />
+                            <G4HunterForms />
                         </div>
                     </div>
                 </div>
@@ -23,4 +23,4 @@ const QGRS = () => {
     );
 }
   
-export default QGRS;
+export default G4Hunter;
