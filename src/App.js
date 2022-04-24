@@ -21,7 +21,7 @@ function App() {
                 <Route exact path = "/" element = {<Home/>} />
                 <Route exact path = "/qgrs" element = {<QGRS/>} />
                 <Route exact path = "/g4hunter" element = {<G4Hunter/>} />
-                <Route exact path = "/querytool/*" element = {<Querytool/>} />
+                <Route exact path = "/querytool" element = {<Querytool/>} />
                 <Route exact path = "/qgrsdg" element = {<Qgrsdg/>} />
                 <Route exact path = "/lnccancerdg" element = {<Lnccancerdg/>} />
               </Routes>

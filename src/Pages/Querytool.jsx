@@ -58,6 +58,7 @@ const Querytool = () => {
 
   return (
     <div>
+      <AdvancedTool/>
       {/* <Qgrsdg/> */}
       {/* <Tabs
         id="controlled-tab-example"
@@ -74,14 +75,14 @@ const Querytool = () => {
         </Tab>
       </Tabs> */}
       
-      <Link to="lnccancer">LncCancer Database</Link>
-      <br />
-      <Link to="qgrstable">Qgrs Database</Link>
-      <Routes>
-        <Route exact path = "/lnccancer" element = {<Lnccancerdg/>}/>
-        <Route exact path = "/qgrstable" element = {<Qgrsdg/>}/>
-        {/* <Route exact path = "/" element = {<AdvancedTool/>}></Route> */} */}
-      </Routes>
+      {/* <Link to="lnccancer">LncCancer Database</Link> */}
+      {/* <br /> */}
+      {/* <Link to="qgrstable">Qgrs Database</Link> */}
+      {/* <Routes> */}
+        {/* <Route exact path = "/lnccancer" element = {<Lnccancerdg/>}/> */}
+        {/* <Route exact path = "/qgrstable" element = {<Qgrsdg/>}/> */}
+        {/* <Route exact path = "/" element = {<AdvancedTool/>}></Route> */}
+      {/* </Routes> */}
       {/* <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>

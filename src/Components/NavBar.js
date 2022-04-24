@@ -13,6 +13,7 @@ const NavBar = () => {
             <Nav.Link href="/g4hunter">G4Hunter</Nav.Link>
             <Nav.Link href="/lnccancerdg">LncCancer Database</Nav.Link>
             <Nav.Link href="/qgrsdg">QGRS Database</Nav.Link>
+            <Nav.Link href='/querytool'>Advanced QueryTool</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

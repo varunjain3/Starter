@@ -14,7 +14,7 @@ const Lnccancerdata = (props) => {
     // { field: 'id', headerName: 'ID', width: 90 },
     { field: 'lncrna_name', headerName: 'LncRNA Name', maxWidth: 175, flex: 1},
     { field: 'cancer_name', headerName: 'Cancer Name', maxWidth: 200, flex: 1  },
-    { field: 'methods', headerName: 'Methods', maxWidth: 200, flex: 1  },
+    { field: 'methods', headerName: 'Methods', minWidth: 200, flex: 1  },
     { field: 'expression_pattern', headerName: 'Expression Pattern', maxWidth: 200, flex: 1  },
     { field: 'pubmed_id', headerName: 'Pubmed ID', maxWidth: 125, flex: 1},
   ];
