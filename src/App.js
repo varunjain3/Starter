@@ -8,6 +8,8 @@ import Querytool from './Pages/Querytool';
 import G4Hunter from './Pages/G4Hunter';
 import Qgrsdg from './Components/TableComponents/Qgrsdg';
 import Lnccancerdg from './Components/TableComponents/Lnccancerdg';
+import Qgrsdetail from './Components/TableComponents/Qgrsdetail';
+import Qgrsfulldetail from './Components/TableComponents/Qgrsfulldetail';
 
 function App() {
   return (
@@ -22,8 +24,10 @@ function App() {
                 <Route exact path = "/qgrs" element = {<QGRS/>} />
                 <Route exact path = "/g4hunter" element = {<G4Hunter/>} />
                 <Route exact path = "/querytool" element = {<Querytool/>} />
-                <Route exact path = "/qgrsdg" element = {<Qgrsdg/>} />
+                {/* <Route exact path = "/qgrsdg" element = {<Qgrsdg/>} /> */}
                 <Route exact path = "/lnccancerdg" element = {<Lnccancerdg/>} />
+                <Route exact path = "/qgrsdetail/:lncrna_name" element = {<Qgrsdetail/>} />
+                {/* <Route exact path = '/qgrsfulldetail/:ncbi_id' element = {<Qgrsfulldetail/>} /> */}
               </Routes>
             </div>
           </div>

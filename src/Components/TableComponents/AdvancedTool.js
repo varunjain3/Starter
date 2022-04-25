@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Lnccancerdata from './Lnccancerdata';
+import {Tabs, Tab, Row, Col} from 'react-bootstrap';
 
 const AdvancedTool = () => {
     const [lncrna_name, setLncrna_name] = useState('');
@@ -51,12 +52,12 @@ const AdvancedTool = () => {
         setFinaldata(lnccancer);
         
         
-        const newQgrsData = qgrstable.filter(x => x.n_transcript_vars == (n_transcript_vars == '' ? x.n_transcript_vars : n_transcript_vars));
+        const newQgrsData = qgrstable.filter(x => x.n_transcript_vars === (n_transcript_vars === '' ? x.n_transcript_vars : n_transcript_vars));
         
-        const newData = lnccancer.filter(x => x.lncrna_name == (lncrna_name == '' ? x.lncrna_name : lncrna_name))
-        .filter(x => x.cancer_name == (cancer_name == '' ? x.cancer_name : cancer_name))
-        .filter(x => x.expression_pattern == (expression_pattern == 'any' ? x.expression_pattern : expression_pattern))
-        .filter(x => x.pubmed_id == (pubmed_id == '' ? x.pubmed_id : pubmed_id));
+        const newData = lnccancer.filter(x => x.lncrna_name === (lncrna_name === '' ? x.lncrna_name : lncrna_name))
+        .filter(x => x.cancer_name === (cancer_name === '' ? x.cancer_name : cancer_name))
+        .filter(x => x.expression_pattern === (expression_pattern === 'any' ? x.expression_pattern : expression_pattern))
+        .filter(x => x.pubmed_id === (pubmed_id === '' ? x.pubmed_id : pubmed_id));
 
         console.log("newdata: ", newData);
         setFinaldata(newData);
@@ -66,46 +67,49 @@ const AdvancedTool = () => {
         <div>
             <h3>Advanced Query Tool</h3>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>LncRNA Name</label>
-                    <input 
-                    type="text" 
-                    value = {lncrna_name}
-                    onChange={(e)=>setLncrna_name(e.target.value)}
-                    />
-                </div>
+                <Row>
+                    <Col>
+                        <label className = "col-form-label">LncRNA Name</label>
+                        <input className = "form-control" 
+                        type="text" 
+                        value = {lncrna_name}
+                        onChange={(e)=>setLncrna_name(e.target.value)}
+                        />
+                    </Col>
 
-                <div>
-                    <label>Cancer Name</label>
-                    <input 
-                    type="text"
-                    value = {cancer_name}
-                    onChange={(e)=>setCancer_name(e.target.value)}
-                    />
-                </div>
+                    <Col>
+                        <label className = "col-form-label">Cancer Name</label>
+                        <input className = "form-control" 
+                        type="text"
+                        value = {cancer_name}
+                        onChange={(e)=>setCancer_name(e.target.value)}
+                        />
+                    </Col>
 
-                <div>
-                    <label>Expression Pattern</label>
-                    <select
-                        value={expression_pattern}
-                        onChange={(e)=>setExpression_pattern(e.target.value)}
-                    >
-                        <option value="any">any</option>
-                        <option value="up-regulated">up-regulated</option>
-                        <option value="down-regulated">down-regulated</option>
-                    </select>
-                </div>
+                    <Col>
+                        <label className = "col-form-label">Expression Pattern</label>
+                        <select className='form-control'
+                            value={expression_pattern}
+                            onChange={(e)=>setExpression_pattern(e.target.value)}
+                        >
+                            <option value="any">any</option>
+                            <option value="up-regulated">up-regulated</option>
+                            <option value="down-regulated">down-regulated</option>
+                        </select>
+                    </Col>
 
-                <div>
-                    <label>Pubmed ID</label>
-                    <input 
-                    type="text" 
-                    value = {pubmed_id}
-                    onChange={(e)=>setPubmed_id(e.target.value)}
-                    />
-                </div>
+                    <Col>
+                        <label className = "col-form-label">Pubmed ID</label>
+                        <input className = "form-control" 
+                        type="text" 
+                        value = {pubmed_id}
+                        onChange={(e)=>setPubmed_id(e.target.value)}
+                        />
+                    </Col>
 
-                <div>
+                </Row>
+
+                {/* <div>
                     <label>NCBI Reference ID</label>
                     <input 
                     type="text" 
@@ -130,11 +134,11 @@ const AdvancedTool = () => {
                     value = {n2g}
                     onChange={(e)=>setN2g(e.target.value)}
                     />
-                </div>
+                </div> */}
 
-                <div>
-                    <button>Submit</button>
-                </div>
+                {/* <div> */}
+                    <button className = "btn btn-primary">Submit</button>
+                {/* </div> */}
 
                 {/* <table>
                     <thead>
