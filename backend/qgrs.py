@@ -78,7 +78,7 @@ def get_QGRS_NCBI(NCBI_ID, parameters: QGRSParameters):
     data = {"sequence": seq, "table": []}
 
     parameters = parameters.dict()
-    parameters = {str(k).lower(): str(v).lower()
+    parameters = {k: str(v).lower()
                   for k, v in parameters.items()}
 
     inputURL = "https://bioinformatics.ramapo.edu/QGRS/analyze.php"
@@ -162,7 +162,7 @@ def get_QGRS_Sequence(seq, parameters: QGRSParameters):
     data = {"sequence": seq}
 
     parameters = parameters.dict()
-    parameters = {str(k).lower(): str(v).lower()
+    parameters = {k: str(v).lower()
                   for k, v in parameters.items()}
 
     inputURL = "https://bioinformatics.ramapo.edu/QGRS/analyze.php"
